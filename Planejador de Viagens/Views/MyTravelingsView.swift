@@ -20,11 +20,12 @@ struct MyTravelingsView: View {
             List {
                 ForEach(travelings) { travel in
                     NavigationLink {
-                        Text(travel.name ?? "")
+                        TravelingDetail(traveling: travel)
                     } label: {
                         Text(travel.name ?? "")
                     }
                 }
+                .onDelete(perform: deleteTraveling)
             }
             .navigationTitle("Minhas viagens")
             .sheet(isPresented: $addTravel, content: {
@@ -38,10 +39,21 @@ struct MyTravelingsView: View {
                         Label("Adicionar", systemImage: "plus")
                     }
                 }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    EditButton()
+                }
             }
         }
         
     }
+    
+    private func deleteTraveling(offsets: IndexSet) {
+          withAnimation {
+            offsets.map { travelings[$0] }.forEach(viewContext.delete)
+              PersistenceController.shared.saveContext()
+            }
+        }
 }
 
 struct MyTravelingsView_Previews: PreviewProvider {
