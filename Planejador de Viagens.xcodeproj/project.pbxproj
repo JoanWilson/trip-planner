@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		852F8CC828350D96005D697A /* AddPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852F8CC728350D96005D697A /* AddPlaceView.swift */; };
+		852F8CCB2835103A005D697A /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852F8CCA2835103A005D697A /* CurrencyUITextField.swift */; };
+		852F8CCD283510A3005D697A /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852F8CCC283510A3005D697A /* CurrencyTextField.swift */; };
 		8562A8032833FDED0018F3D0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562A8022833FDED0018F3D0 /* Persistence.swift */; };
 		8562A805283404D50018F3D0 /* MyTravelingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562A804283404D50018F3D0 /* MyTravelingsView.swift */; };
 		8562A8072834061A0018F3D0 /* AddTravelingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562A8062834061A0018F3D0 /* AddTravelingsView.swift */; };
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		852F8CC728350D96005D697A /* AddPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceView.swift; sourceTree = "<group>"; };
+		852F8CCA2835103A005D697A /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
+		852F8CCC283510A3005D697A /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		8562A8022833FDED0018F3D0 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		8562A804283404D50018F3D0 /* MyTravelingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTravelingsView.swift; sourceTree = "<group>"; };
 		8562A8062834061A0018F3D0 /* AddTravelingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelingsView.swift; sourceTree = "<group>"; };
@@ -95,8 +101,18 @@
 				8562A804283404D50018F3D0 /* MyTravelingsView.swift */,
 				8562A8062834061A0018F3D0 /* AddTravelingsView.swift */,
 				8562A808283410E10018F3D0 /* TravelingDetail.swift */,
+				852F8CC728350D96005D697A /* AddPlaceView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		852F8CC928351019005D697A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				852F8CCA2835103A005D697A /* CurrencyUITextField.swift */,
+				852F8CCC283510A3005D697A /* CurrencyTextField.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		85B4B912282E7F5A0047C6FF = {
@@ -126,6 +142,7 @@
 		85B4B91D282E7F5A0047C6FF /* Planejador de Viagens */ = {
 			isa = PBXGroup;
 			children = (
+				852F8CC928351019005D697A /* Resources */,
 				851C0C1828317F0200A1C25C /* Views */,
 				85B4B91E282E7F5A0047C6FF /* Planejador_de_ViagensApp.swift */,
 				85B4B920282E7F5A0047C6FF /* ContentView.swift */,
@@ -294,8 +311,11 @@
 			files = (
 				8562A805283404D50018F3D0 /* MyTravelingsView.swift in Sources */,
 				85E5E0272833EA8200F0C5EE /* Place+CoreDataProperties.swift in Sources */,
+				852F8CC828350D96005D697A /* AddPlaceView.swift in Sources */,
 				8562A8032833FDED0018F3D0 /* Persistence.swift in Sources */,
 				85E5E0242833EA8200F0C5EE /* Traveling+CoreDataClass.swift in Sources */,
+				852F8CCB2835103A005D697A /* CurrencyUITextField.swift in Sources */,
+				852F8CCD283510A3005D697A /* CurrencyTextField.swift in Sources */,
 				85E5E0252833EA8200F0C5EE /* Traveling+CoreDataProperties.swift in Sources */,
 				8562A8072834061A0018F3D0 /* AddTravelingsView.swift in Sources */,
 				85B4B921282E7F5A0047C6FF /* ContentView.swift in Sources */,

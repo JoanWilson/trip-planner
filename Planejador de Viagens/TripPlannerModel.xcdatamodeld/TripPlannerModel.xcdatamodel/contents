@@ -16,7 +16,7 @@
         <relationship name="places" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Place" inverseName="traveling" inverseEntity="Place"/>
     </entity>
     <elements>
-        <element name="Traveling" positionX="-63" positionY="-18" width="128" height="104"/>
         <element name="Place" positionX="-54" positionY="-9" width="128" height="119"/>
+        <element name="Traveling" positionX="-329.0546875" positionY="-120.05859375" width="128" height="104"/>
     </elements>
 </model>

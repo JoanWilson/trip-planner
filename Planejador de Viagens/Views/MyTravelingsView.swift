@@ -22,11 +22,15 @@ struct MyTravelingsView: View {
                     NavigationLink {
                         TravelingDetail(traveling: travel)
                     } label: {
-                        Text(travel.name ?? "")
+                        HStack {
+                            getTypeAndReturnImage(for: Int(travel.type))
+                            Text(travel.name ?? "")
+                        }
                     }
                 }
                 .onDelete(perform: deleteTraveling)
             }
+            .listStyle(.plain)
             .navigationTitle("Minhas viagens")
             .sheet(isPresented: $addTravel, content: {
                 AddTravelingView()
@@ -49,11 +53,32 @@ struct MyTravelingsView: View {
     }
     
     private func deleteTraveling(offsets: IndexSet) {
-          withAnimation {
+        withAnimation {
             offsets.map { travelings[$0] }.forEach(viewContext.delete)
-              PersistenceController.shared.saveContext()
-            }
+            PersistenceController.shared.saveContext()
         }
+    }
+    
+    private func getTypeAndReturnImage(for type: Int) -> Image {
+        switch type {
+        case 0:
+            return Image(systemName: "airplane")
+        case 1:
+            return Image(systemName: "allergens")
+        
+        case 2:
+            return Image(systemName: "briefcase")
+        
+        case 3:
+            return Image(systemName: "ticket")
+        
+        case 4:
+            return Image(systemName: "books.vertical")
+        
+        default:
+            return Image(systemName: "airplane")
+        }
+    }
 }
 
 struct MyTravelingsView_Previews: PreviewProvider {

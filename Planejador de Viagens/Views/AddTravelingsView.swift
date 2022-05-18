@@ -17,7 +17,7 @@ struct AddTravelingView: View {
     
     @State private var travelName: String = ""
     @State private var type: String = ""
-    @State private var budget: Double = 0.0
+    @State private var budget = 0
     @State private var selectedType = 0
     @State private var showingAlert = false
     
@@ -25,34 +25,55 @@ struct AddTravelingView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Traveling.name, ascending: true)]) private var travelings: FetchedResults<Traveling>
     
     
+    private var numberFormatter: NumberFormatter
+    
+    
+    init(numberFormatter: NumberFormatter = NumberFormatter()) {
+        self.numberFormatter = numberFormatter
+        self.numberFormatter.usesGroupingSeparator = true
+        self.numberFormatter.numberStyle = .currency
+        self.numberFormatter.locale = Locale.current
+        self.numberFormatter.maximumFractionDigits = 2
+    }
+    
+    
     
     var body: some View {
         NavigationView {
             Form {
+                
                 Section {
                     HStack {
                         TextField("Digite o nome da viagem", text: $travelName)
                     }
-
+                } header: {
+                    Text("Nome da Viagem")
+                }
+                
+                Section {
                     HStack {
-                        Text("Tipo da viagem")
+                        Text("Qual o tipo da Viagem?")
                         Spacer()
-                        Picker("Tipo da viagem",
-                            selection: $selectedType) {
-                            ForEach(travelTypes, id: \.self) { type in
-                                    Text(type)
-                                }
-                            }.pickerStyle(MenuPickerStyle()
-                        )
-
+                        Picker(selection: $selectedType, label: Text("Tipo da Viagem")) {
+                            ForEach(0..<travelTypes.count) {
+                                Text(self.travelTypes[$0])
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        
+                        
                     }
                     .padding(.trailing, 20)
-                    
-                    TextField("Qual o seu orçamento?", value: $budget, format: .number)
-                        .keyboardType(.decimalPad)
-                } header: {
-                    Text("Informações sobre sua viagem")
                 }
+                
+                HStack {
+                    Text("Orçamento: ")
+                    Spacer()
+                    CurrencyTextField(numberFormatter: numberFormatter, value: $budget)
+                    
+                }
+                
+                Text("Seu tipo de viagem é: \(self.travelTypes[selectedType])")
                 
             }
             .navigationTitle("Adicionar Viagem")
@@ -90,8 +111,9 @@ struct AddTravelingView: View {
         let newTravel = Traveling(context: viewContext)
         newTravel.id = UUID()
         newTravel.name = travelName
-        newTravel.budget = budget
+        newTravel.budget = Double(budget)
         newTravel.type = Int16(selectedType)
+        print(selectedType)
         
         do {
             try viewContext.save()
