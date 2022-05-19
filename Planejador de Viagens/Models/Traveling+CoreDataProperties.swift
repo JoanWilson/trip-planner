@@ -30,9 +30,12 @@ extension Traveling {
         let placeSet = places as? Set<Place> ?? []
         
         return placeSet.sorted {
-            $0.unwrappedName < $1.unwrappedName
+            $0.id < $1.id
         }
     }
+    
+    
+    
 }
 
 // MARK: Generated accessors for places

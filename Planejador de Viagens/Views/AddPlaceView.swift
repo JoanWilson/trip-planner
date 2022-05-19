@@ -33,29 +33,39 @@ struct AddPlaceView: View {
         NavigationView {
             List {
                 Section {
-                    TextField("Qual o nome do local", text: $placeName)
+                    TextField("Type a name your expense", text: $placeName)
                 }
                 
                 Section {
-                    TextField("Orçamento", value: $placeBudget, format: .currency(code: "BRL"))
+                    HStack {
+                        Text("Budget")
+                        Text("R$: ")
+                    
+                        TextField("Value", value: $placeBudget, format: .number)
+                        
+                        
+                    }
+                    
                 }
             }
+            .navigationTitle("Add expense")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
                         addPlace()
                     } label: {
-                        Text("Salvar")
+                        Text("Salve")
                     }
-                    .alert("O nome do local não pode ser vazio!", isPresented: $showingAlert) {
-                        Button("Tudo bem", role: .cancel) {}
+                    .alert("Empty fields are not accepted", isPresented: $showingAlert) {
+                        Button("Ok", role: .cancel) {}
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Cancelar")
+                        Text("Cancel")
                     }
                 }
             }
@@ -65,7 +75,7 @@ struct AddPlaceView: View {
     private func addPlace() {
         
         
-        if placeName.isEmpty {
+        if placeName.isEmpty || placeBudget == 0 {
             return showingAlert = true
         }
         

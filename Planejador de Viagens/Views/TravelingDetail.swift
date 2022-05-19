@@ -18,46 +18,86 @@ struct TravelingDetail: View {
     
     
     var body: some View {
-        //        VStack {
-        //            TextField("Digite um lugar", text: $placeName)
-        //            TextField("Digite o valor do orçamento", value: $placeBudget, format: .number)
-        //            Button {
-        //                addPlace()
-        //            } label: {
-        //                 Text("Adicionar")
-        //            }
+        
         VStack {
-            HStack {
-                Text("\(traveling.budget)")
-                Text("\(returnTotal())")
-                Text("Restante")
+            if !traveling.placesArray.isEmpty {
+                List {
+                    Section {
+                        VStack {
+                            if (traveling.budget - returnTotal()) <= 0 {
+                                VStack {
+                                    Text("\((traveling.budget - returnTotal()).formatted(.currency(code: "BRL")))")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                    
+                                    Text("Balance")
+                                }
+                                .foregroundColor(.red)
+                            } else {
+                                VStack {
+                                    Text("\((traveling.budget - returnTotal()).formatted(.currency(code: "BRL")))")
+                                        .fontWeight(.bold)
+                                        .font(.title2)
+                                    
+                                    Text("Balance")
+                                }
+                                .foregroundColor(.green)
+                            }
+                        }
+                        .padding()
+                        .frame(maxWidth:.infinity, alignment: .center)
+                    }
+                    Section {
+                        
+                        ForEach(traveling.placesArray) { place in
+                            HStack {
+                                Text(place.unwrappedName)
+                                Spacer()
+                                Text("\(place.unwrappedBudget.formatted(.currency(code: "BRL")))")
+                                    .padding(.horizontal,5)
+                                    .background(.red)
+                                    .cornerRadius(5)
+                                    .foregroundColor(.white)
+                                
+                            }
+                            
+                        }.onDelete(perform: deletePlace)
+                    } header: {
+                        Text("Expenses List")
+                    }
+                    
+                }
+            } else {
+                Text("😕 You didn't add any traveling yet")
+                    .foregroundColor(.gray)
+                    .padding(.vertical, UIScreen.main.bounds.height*0.3)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .listRowBackground(Color(UIColor.systemGroupedBackground))
             }
-            .background(.clear)
-            List {
-                ForEach(traveling.placesArray) { place in
-                    Text(place.unwrappedName)
-                }.onDelete(perform: deletePlace)
-            }
-            .listStyle(.plain)
-            .searchable(text: $searchField, prompt: "Pesquisa")
+            //            .searchable(text: $searchField, prompt: "Pesquisa")
+            //            .listStyle(.plain)
         }
         .navigationTitle(traveling.name ?? "")
+        .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $addPlace, content: {
             AddPlaceView(traveling: traveling)
         })
         .toolbar {
+            //MARK: - TOOLBAR TRAVELING DETAIL
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
                     addPlace.toggle()
                 } label: {
-                    Label("Adicionar", systemImage: "plus")
+                    Text("Add")
                 }
-                EditButton()
             }
+            
+            
             
         }
         
-        //        }
+        
         
     }
     
@@ -82,6 +122,7 @@ struct TravelingDetail: View {
 
 struct TravelingDetail_Previews: PreviewProvider {
     static var previews: some View {
-        MyTravelingsView()
+        ContentView()
+        
     }
 }

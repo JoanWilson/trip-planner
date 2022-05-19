@@ -26,6 +26,10 @@ extension Place {
     public var unwrappedName: String {
         name ?? "Local Desconhecido"
     }
+    
+    public var unwrappedBudget: Double {
+        budget 
+    }
 
 }
 

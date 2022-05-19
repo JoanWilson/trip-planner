@@ -21,7 +21,7 @@ struct AddTravelingView: View {
     @State private var selectedType = 0
     @State private var showingAlert = false
     
-    let travelTypes = ["Casual", "Lazer", "Trabalho", "Evento", "Academico"]
+    let travelTypes = ["Casual", "Leisure", "Work", "Event", "Academic"]
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Traveling.name, ascending: true)]) private var travelings: FetchedResults<Traveling>
     
     
@@ -44,15 +44,13 @@ struct AddTravelingView: View {
                 
                 Section {
                     HStack {
-                        TextField("Digite o nome da viagem", text: $travelName)
+                        TextField("Type the traveling`s name", text: $travelName)
                     }
-                } header: {
-                    Text("Nome da Viagem")
                 }
                 
                 Section {
                     HStack {
-                        Text("Qual o tipo da Viagem?")
+                        Text("Traveling kind")
                         Spacer()
                         Picker(selection: $selectedType, label: Text("Tipo da Viagem")) {
                             ForEach(0..<travelTypes.count) {
@@ -67,16 +65,18 @@ struct AddTravelingView: View {
                 }
                 
                 HStack {
-                    Text("Orçamento: ")
-                    Spacer()
-                    CurrencyTextField(numberFormatter: numberFormatter, value: $budget)
+                    Text("Budget")
+                    Text("R$: ")
+                
+                    TextField("Valor", value: $budget, format: .number)
+                    
                     
                 }
                 
-                Text("Seu tipo de viagem é: \(self.travelTypes[selectedType])")
+                
                 
             }
-            .navigationTitle("Adicionar Viagem")
+            .navigationTitle("Add a traveling")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -84,17 +84,17 @@ struct AddTravelingView: View {
                         saveTravel()
                         
                     } label: {
-                        Text("Salvar")
+                        Text("Save")
                     }
-                    .alert("O nome da viagem não pode ser vazio!", isPresented: $showingAlert) {
-                        Button("Tudo bem", role: .cancel) {}
+                    .alert("Empty fields are not accepted", isPresented: $showingAlert) {
+                        Button("Ok", role: .cancel) {}
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Cancelar")
+                        Text("Cancel")
                     }
                 }
             }
@@ -105,7 +105,7 @@ struct AddTravelingView: View {
     
     private func saveTravel() {
         
-        if travelName.isEmpty {
+        if travelName.isEmpty || budget == 0 {
             return showingAlert = true
         }
         let newTravel = Traveling(context: viewContext)

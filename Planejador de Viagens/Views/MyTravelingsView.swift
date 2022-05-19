@@ -15,23 +15,45 @@ struct MyTravelingsView: View {
     
     @State private var addTravel = false
     
+    
     var body: some View {
         NavigationView {
             List {
-                ForEach(travelings) { travel in
-                    NavigationLink {
-                        TravelingDetail(traveling: travel)
-                    } label: {
-                        HStack {
-                            getTypeAndReturnImage(for: Int(travel.type))
-                            Text(travel.name ?? "")
+                if !travelings.isEmpty {
+                    ForEach(travelings) { travel in
+                        NavigationLink {
+                            TravelingDetail(traveling: travel)
+                        } label: {
+                            HStack {
+                                Image(systemName: getTypeAndReturnImage(for: Int(travel.type)))
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .padding(.trailing, 20)
+                                VStack {
+                                    Text(travel.name ?? "")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("Budget: \(travel.budget.formatted(.currency(code: "BRL")))")
+                                        .font(.caption)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .foregroundColor(.gray)
+                                }
+                                
+                            }
+                            .padding()
                         }
                     }
+                    .onDelete(perform: deleteTraveling)
+                } else {
+                    Text("😕 You didn't add any traveling yet")
+                        .foregroundColor(.gray)
+                        .padding(.vertical, UIScreen.main.bounds.height*0.3)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .multilineTextAlignment(.center)
+                        .listRowBackground(Color(UIColor.systemGroupedBackground))
                 }
-                .onDelete(perform: deleteTraveling)
             }
-            .listStyle(.plain)
-            .navigationTitle("Minhas viagens")
+            
+            .navigationTitle("My Travelings")
             .sheet(isPresented: $addTravel, content: {
                 AddTravelingView()
             })
@@ -40,12 +62,8 @@ struct MyTravelingsView: View {
                     Button {
                         addTravel.toggle()
                     } label: {
-                        Label("Adicionar", systemImage: "plus")
+                        Text("Add")
                     }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
                 }
             }
         }
@@ -59,26 +77,27 @@ struct MyTravelingsView: View {
         }
     }
     
-    private func getTypeAndReturnImage(for type: Int) -> Image {
+    private func getTypeAndReturnImage(for type: Int) -> String {
         switch type {
         case 0:
-            return Image(systemName: "airplane")
+            return "airplane"
         case 1:
-            return Image(systemName: "allergens")
+            return "allergens"
         
         case 2:
-            return Image(systemName: "briefcase")
+            return "briefcase"
         
         case 3:
-            return Image(systemName: "ticket")
+            return "ticket"
         
         case 4:
-            return Image(systemName: "books.vertical")
+            return "books.vertical"
         
         default:
-            return Image(systemName: "airplane")
+            return "airplane"
         }
     }
+    
 }
 
 struct MyTravelingsView_Previews: PreviewProvider {
