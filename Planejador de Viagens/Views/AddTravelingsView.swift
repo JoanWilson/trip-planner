@@ -22,6 +22,7 @@ struct AddTravelingView: View {
     @State private var showingAlert = false
     
     let travelTypes = ["Casual", "Leisure", "Work", "Event", "Academic"]
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Traveling.name, ascending: true)]) private var travelings: FetchedResults<Traveling>
     
     
@@ -69,6 +70,7 @@ struct AddTravelingView: View {
                     Text("R$: ")
                 
                     TextField("Valor", value: $budget, format: .number)
+                        .keyboardType(.decimalPad)
                     
                     
                 }

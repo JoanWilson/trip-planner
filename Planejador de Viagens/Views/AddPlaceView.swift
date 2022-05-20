@@ -42,6 +42,7 @@ struct AddPlaceView: View {
                         Text("R$: ")
                     
                         TextField("Value", value: $placeBudget, format: .number)
+                            .keyboardType(.decimalPad)
                         
                         
                     }
