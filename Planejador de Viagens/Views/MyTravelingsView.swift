@@ -32,7 +32,7 @@ struct MyTravelingsView: View {
                                 VStack {
                                     Text(travel.name ?? "")
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                    Text("Budget: \(travel.budget.formatted(.currency(code: "BRL")))")
+                                    Text("Budget: \(travel.budget.formatted(.currency(code: "USD")))")
                                         .font(.caption)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .foregroundColor(.gray)

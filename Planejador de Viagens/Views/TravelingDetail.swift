@@ -26,7 +26,7 @@ struct TravelingDetail: View {
                         VStack {
                             if (traveling.budget - returnTotal()) <= 0 {
                                 VStack {
-                                    Text("\((traveling.budget - returnTotal()).formatted(.currency(code: "BRL")))")
+                                    Text("\((traveling.budget - returnTotal()).formatted(.currency(code: "USD")))")
                                         .font(.title)
                                         .fontWeight(.bold)
                                     
@@ -35,7 +35,7 @@ struct TravelingDetail: View {
                                 .foregroundColor(.red)
                             } else {
                                 VStack {
-                                    Text("\((traveling.budget - returnTotal()).formatted(.currency(code: "BRL")))")
+                                    Text("\((traveling.budget - returnTotal()).formatted(.currency(code: "USD")))")
                                         .fontWeight(.bold)
                                         .font(.title2)
                                     
@@ -68,7 +68,7 @@ struct TravelingDetail: View {
                     
                 }
             } else {
-                Text("😕 You didn't add any traveling yet")
+                Text("You didn't add any expense")
                     .foregroundColor(.gray)
                     .padding(.vertical, UIScreen.main.bounds.height*0.3)
                     .frame(maxWidth: .infinity, alignment: .center)

@@ -15,18 +15,15 @@ struct AddPlaceView: View {
     
     @StateObject var traveling: Traveling
     @State private var placeName: String = ""
-    @State private var placeBudget = 0
+    @State private var placeBudget: String = ""
     @State private var showingAlert = false
     
-    //    private var numberFormatter: NumberFormatter =
-    //
-    //    init(numberFormatter: NumberFormatter = NumberFormatter()) {
-    //        self.numberFormatter = numberFormatter
-    //        self.numberFormatter.usesGroupingSeparator = true
-    //        self.numberFormatter.numberStyle = .currency
-    //        self.numberFormatter.locale = Locale.current
-    //        self.numberFormatter.maximumFractionDigits = 2
-    //    }
+    let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .none
+        formatter.zeroSymbol  = ""
+        return formatter
+    }()
     
     
     var body: some View {
@@ -41,7 +38,7 @@ struct AddPlaceView: View {
                         Text("Budget")
                         Text("R$: ")
                     
-                        TextField("Value", value: $placeBudget, format: .number)
+                        TextField("Value", text: $placeBudget)
                             .keyboardType(.decimalPad)
                         
                         
@@ -56,7 +53,7 @@ struct AddPlaceView: View {
                     Button {
                         addPlace()
                     } label: {
-                        Text("Salve")
+                        Text("Save")
                     }
                     .alert("Empty fields are not accepted", isPresented: $showingAlert) {
                         Button("Ok", role: .cancel) {}
@@ -75,8 +72,11 @@ struct AddPlaceView: View {
     
     private func addPlace() {
         
+        guard let placeBudgetValue = Double(placeBudget) else {
+            return
+        }
         
-        if placeName.isEmpty || placeBudget == 0 {
+        if placeName.isEmpty || placeBudgetValue == 0 {
             return showingAlert = true
         }
         
@@ -85,7 +85,7 @@ struct AddPlaceView: View {
         newPlace.name = placeName
         newPlace.longitude = 0
         newPlace.latitude = 0
-        newPlace.budget = Double(placeBudget)
+        newPlace.budget = placeBudgetValue
         
         
         traveling.addToPlaces(newPlace)

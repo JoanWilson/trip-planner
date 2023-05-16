@@ -20,13 +20,6 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-
-//        // Companies
-//        let newCompany = Traveling(context: viewContext)
-//        newCompany.name = "Viagem para SP"
-//
-//        shared.saveContext()
-        
         return result
     }()
 

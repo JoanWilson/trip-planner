@@ -17,7 +17,7 @@ struct AddTravelingView: View {
     
     @State private var travelName: String = ""
     @State private var type: String = ""
-    @State private var budget = 0
+    @State private var budget: String = ""
     @State private var selectedType = 0
     @State private var showingAlert = false
     
@@ -26,11 +26,15 @@ struct AddTravelingView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Traveling.name, ascending: true)]) private var travelings: FetchedResults<Traveling>
     
     
-    private var numberFormatter: NumberFormatter
+    let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .none
+        formatter.zeroSymbol  = ""
+        return formatter
+    }()
     
     
     init(numberFormatter: NumberFormatter = NumberFormatter()) {
-        self.numberFormatter = numberFormatter
         self.numberFormatter.usesGroupingSeparator = true
         self.numberFormatter.numberStyle = .currency
         self.numberFormatter.locale = Locale.current
@@ -41,19 +45,18 @@ struct AddTravelingView: View {
     
     var body: some View {
         NavigationView {
-            Form {
+            List {
                 
                 Section {
                     HStack {
-                        TextField("Type the traveling`s name", text: $travelName)
+                        TextField("Type the traveling's name", text: $travelName)
                     }
                 }
                 
                 Section {
                     HStack {
-                        Text("Traveling kind")
                         Spacer()
-                        Picker(selection: $selectedType, label: Text("Tipo da Viagem")) {
+                        Picker(selection: $selectedType, label: Text("Traveling kind")) {
                             ForEach(0..<travelTypes.count) {
                                 Text(self.travelTypes[$0])
                             }
@@ -65,14 +68,14 @@ struct AddTravelingView: View {
                     .padding(.trailing, 20)
                 }
                 
-                HStack {
-                    Text("Budget")
-                    Text("R$: ")
-                
-                    TextField("Valor", value: $budget, format: .number)
-                        .keyboardType(.decimalPad)
-                    
-                    
+                Section {
+                    HStack {
+                        Text("Budget")
+                        Text("$: ")
+                        
+                        TextField("Value", text: $budget)
+                            .keyboardType(.decimalPad)
+                    }
                 }
                 
                 
@@ -107,13 +110,18 @@ struct AddTravelingView: View {
     
     private func saveTravel() {
         
-        if travelName.isEmpty || budget == 0 {
+        guard let budgetValue = Double(budget) else {
+            return
+        }
+        
+        if travelName.isEmpty || budgetValue == 0 {
             return showingAlert = true
         }
+        
         let newTravel = Traveling(context: viewContext)
         newTravel.id = UUID()
         newTravel.name = travelName
-        newTravel.budget = Double(budget)
+        newTravel.budget = budgetValue
         newTravel.type = Int16(selectedType)
         print(selectedType)
         
